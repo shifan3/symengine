@@ -74,14 +74,15 @@ class Mul : public Basic
 {
 private:
     RCP<const Number> coef_; //! The coefficient (e.g. `2` in `2*x*y`)
-    map_basic_basic
-        dict_; //! the dictionary of the rest (e.g. `x*y` in `2*x*y`)
-
+    vec_basic_basic dict_; //! the dictionary of the rest (e.g. `x*y` in `2*x*y`)
+    map_basic_basic dict_backup_;
 public:
     IMPLEMENT_TYPEID(SYMENGINE_MUL)
     //! Constructs Mul from a dictionary by copying the contents of the
     //! dictionary:
     Mul(const RCP<const Number> &coef, map_basic_basic &&dict);
+
+    Mul(const RCP<const Number> &coef,  vec_basic_basic &&vec);
     //! \return size of the hash
     virtual hash_t __hash__() const;
     /*! Equality comparator
@@ -128,7 +129,7 @@ public:
     }
     inline const map_basic_basic &get_dict() const
     {
-        return dict_;
+        return dict_backup_;
     }
 };
 //! Multiplication

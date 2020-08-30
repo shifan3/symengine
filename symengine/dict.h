@@ -55,6 +55,10 @@ typedef std::map<RCP<const Basic>, RCP<const Number>, RCPBasicKeyLess>
     map_basic_num;
 typedef std::map<RCP<const Basic>, RCP<const Basic>, RCPBasicKeyLess>
     map_basic_basic;
+typedef std::vector<std::pair<RCP<const Basic>, RCP<const Basic>>>
+    vec_basic_basic;
+typedef std::vector<std::pair<RCP<const Basic>, RCP<const Number>>>
+    vec_basic_num;
 typedef std::map<RCP<const Integer>, unsigned, RCPIntegerKeyLess>
     map_integer_uint;
 typedef std::map<unsigned, integer_class> map_uint_mpz;

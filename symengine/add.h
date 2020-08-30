@@ -43,7 +43,8 @@ class Add : public Basic
 {
 private:
     RCP<const Number> coef_; //! The coefficient (e.g. `2` in `2+x+y`)
-    umap_basic_num dict_; //! The dictionary of the rest (e.g. `x+y` in `2+x+y`)
+    vec_basic_num dict_;
+    umap_basic_num dict_backup; //! The dictionary of the rest (e.g. `x+y` in `2+x+y`)
 
 public:
     IMPLEMENT_TYPEID(SYMENGINE_ADD)
@@ -51,6 +52,7 @@ public:
         dictionary. Assumes that the input is in canonical form
     */
     Add(const RCP<const Number> &coef, umap_basic_num &&dict);
+    Add(const RCP<const Number> &coef, vec_basic_num &&dict);
     virtual hash_t __hash__() const;
     virtual bool __eq__(const Basic &o) const;
     virtual int compare(const Basic &o) const;
@@ -104,6 +106,8 @@ public:
     */
     virtual vec_basic get_args() const;
 
+    
+
     //! \return const reference to the coefficient of the Add
     inline const RCP<const Number> &get_coef() const
     {
@@ -111,6 +115,11 @@ public:
     }
     //! \return const reference to the dictionary of the Add
     inline const umap_basic_num &get_dict() const
+    {
+        return dict_backup;
+    }
+
+    inline const vec_basic_num& get_vec() const
     {
         return dict_;
     }

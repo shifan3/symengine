@@ -5,11 +5,37 @@
 namespace SymEngine
 {
 
+static vec_basic_num map_to_vec(const umap_basic_num& m) {
+    vec_basic_num ret;
+    for (const auto& pair : m) {
+        ret.push_back(pair);
+    }
+    return ret;
+}
+
+static umap_basic_num vec_to_map(const vec_basic_num& m) {
+    umap_basic_num ret;
+    for (const auto& pair : m) {
+        ret[pair.first] = pair.second;
+    }
+    return ret;
+}
+
 Add::Add(const RCP<const Number> &coef, umap_basic_num &&dict)
+    : coef_{coef}, dict_backup{std::move(dict)}
+{
+    dict_ = map_to_vec(dict_backup);
+    SYMENGINE_ASSIGN_TYPEID()
+    SYMENGINE_ASSERT(is_canonical(coef, dict_backup))
+}
+
+
+Add::Add(const RCP<const Number> &coef, vec_basic_num &&dict)
     : coef_{coef}, dict_{std::move(dict)}
 {
+    dict_backup = vec_to_map(dict_);
     SYMENGINE_ASSIGN_TYPEID()
-    SYMENGINE_ASSERT(is_canonical(coef, dict_))
+    SYMENGINE_ASSERT(is_canonical(coef, dict_backup))
 }
 
 bool Add::is_canonical(const RCP<const Number> &coef,
@@ -318,12 +344,13 @@ RCP<const Basic> sub(const RCP<const Basic> &a, const RCP<const Basic> &b)
 void Add::as_two_terms(const Ptr<RCP<const Basic>> &a,
                        const Ptr<RCP<const Basic>> &b) const
 {
-    auto p = dict_.begin();
+    auto p = dict_backup.begin();
     *a = mul(p->first, p->second);
-    umap_basic_num d = dict_;
+    auto d = dict_backup;
     d.erase(p->first);
     *b = Add::from_dict(coef_, std::move(d));
 }
+
 
 vec_basic Add::get_args() const
 {

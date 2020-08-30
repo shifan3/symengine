@@ -6,11 +6,36 @@
 namespace SymEngine
 {
 
+static vec_basic_basic map_to_vec(const map_basic_basic& m) {
+    vec_basic_basic ret;
+    for (const auto& pair : m) {
+        ret.push_back(pair);
+    }
+    return ret;
+}
+
+static map_basic_basic vec_to_map(const vec_basic_basic& m) {
+    map_basic_basic ret;
+    for (const auto& pair : m) {
+        ret[pair.first] = pair.second;
+    }
+    return ret;
+}
+
 Mul::Mul(const RCP<const Number> &coef, map_basic_basic &&dict)
-    : coef_{coef}, dict_{std::move(dict)}
+    : coef_{coef}, dict_backup_{std::move(dict)}
 {
+    dict_ = map_to_vec(dict_backup_);
     SYMENGINE_ASSIGN_TYPEID()
-    SYMENGINE_ASSERT(is_canonical(coef, dict_))
+    SYMENGINE_ASSERT(is_canonical(coef, dict_backup_))
+}
+
+Mul::Mul(const RCP<const Number> &coef,  vec_basic_basic &&vec)
+    : coef_{coef}, dict_{std::move(vec)}
+{
+    dict_backup_ = vec_to_map(dict_);
+    SYMENGINE_ASSIGN_TYPEID()
+    SYMENGINE_ASSERT(is_canonical(coef, dict_backup_))
 }
 
 bool Mul::is_canonical(const RCP<const Number> &coef,
@@ -307,7 +332,7 @@ void Mul::as_two_terms(const Ptr<RCP<const Basic>> &a,
     // Example: if this=3*x**2*y**2*z**2, then a=x**2 and b=3*y**2*z**2
     auto p = dict_.begin();
     *a = pow(p->first, p->second);
-    map_basic_basic d = dict_;
+    map_basic_basic d = get_dict();
     d.erase(p->first);
     *b = Mul::from_dict(coef_, std::move(d));
 }
@@ -469,13 +494,13 @@ void Mul::power_num(const Ptr<RCP<const Number>> &coef, map_basic_basic &d,
         if (coef_->is_negative()) {
             // (-3*x*y)**(1/2) -> 3**(1/2)*(-x*y)**(1/2)
             new_coef = pow(coef_->mul(*minus_one), exp);
-            map_basic_basic d1 = dict_;
+            map_basic_basic d1 = get_dict();
             Mul::dict_add_term_new(coef, d, exp,
                                    Mul::from_dict(minus_one, std::move(d1)));
         } else if (coef_->is_positive() and not coef_->is_one()) {
             // (3*x*y)**(1/2) -> 3**(1/2)*(x*y)**(1/2)
             new_coef = pow(coef_, exp);
-            map_basic_basic d1 = dict_;
+            map_basic_basic d1 = get_dict();
             Mul::dict_add_term_new(coef, d, exp,
                                    Mul::from_dict(one, std::move(d1)));
         } else {
