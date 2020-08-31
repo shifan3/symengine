@@ -131,6 +131,11 @@ public:
     {
         return dict_backup_;
     }
+
+    inline const vec_basic_basic &get_vec() const
+    {
+        return dict_;
+    }
 };
 //! Multiplication
 RCP<const Basic> mul(const RCP<const Basic> &a, const RCP<const Basic> &b);
