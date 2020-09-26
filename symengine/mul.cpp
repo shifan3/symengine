@@ -104,7 +104,7 @@ hash_t Mul::__hash__() const
 {
     hash_t seed = SYMENGINE_MUL;
     hash_combine<Basic>(seed, *coef_);
-    for (const auto &p : dict_) {
+    for (const auto &p : dict_backup_) {
         hash_combine<Basic>(seed, *(p.first));
         hash_combine<Basic>(seed, *(p.second));
     }
@@ -114,7 +114,7 @@ hash_t Mul::__hash__() const
 bool Mul::__eq__(const Basic &o) const
 {
     if (is_a<Mul>(o) and eq(*coef_, *(down_cast<const Mul &>(o).coef_))
-        and unified_eq(dict_, down_cast<const Mul &>(o).dict_))
+        and unified_eq(dict_backup_, down_cast<const Mul &>(o).dict_backup_))
         return true;
 
     return false;
@@ -125,8 +125,8 @@ int Mul::compare(const Basic &o) const
     SYMENGINE_ASSERT(is_a<Mul>(o))
     const Mul &s = down_cast<const Mul &>(o);
     // # of elements
-    if (dict_.size() != s.dict_.size())
-        return (dict_.size() < s.dict_.size()) ? -1 : 1;
+    if (dict_backup_.size() != s.dict_backup_.size())
+        return (dict_backup_.size() < s.dict_backup_.size()) ? -1 : 1;
 
     // coef
     int cmp = coef_->__cmp__(*s.coef_);
@@ -134,7 +134,7 @@ int Mul::compare(const Basic &o) const
         return cmp;
 
     // Compare dictionaries:
-    return unified_compare(dict_, s.dict_);
+    return unified_compare(dict_backup_, s.dict_backup_);
 }
 
 RCP<const SymEngine::Basic> Mul::from_dict(const RCP<const Number> &coef,

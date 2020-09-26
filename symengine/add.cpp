@@ -80,7 +80,7 @@ hash_t Add::__hash__() const
 {
     hash_t seed = SYMENGINE_ADD, temp;
     hash_combine<Basic>(seed, *coef_);
-    for (const auto &p : dict_) {
+    for (const auto &p : dict_backup) {
         temp = p.first->hash();
         hash_combine<Basic>(temp, *(p.second));
         seed ^= temp;
@@ -91,7 +91,7 @@ hash_t Add::__hash__() const
 bool Add::__eq__(const Basic &o) const
 {
     if (is_a<Add>(o) and eq(*coef_, *(down_cast<const Add &>(o).coef_))
-        and unified_eq(dict_, down_cast<const Add &>(o).dict_))
+        and unified_eq(dict_backup, down_cast<const Add &>(o).dict_backup))
         return true;
 
     return false;
@@ -102,8 +102,8 @@ int Add::compare(const Basic &o) const
     SYMENGINE_ASSERT(is_a<Add>(o))
     const Add &s = down_cast<const Add &>(o);
     // # of elements
-    if (dict_.size() != s.dict_.size())
-        return (dict_.size() < s.dict_.size()) ? -1 : 1;
+    if (dict_backup.size() != s.dict_backup.size())
+        return (dict_backup.size() < s.dict_backup.size()) ? -1 : 1;
 
     // coef
     int cmp = coef_->__cmp__(*s.coef_);
@@ -113,8 +113,8 @@ int Add::compare(const Basic &o) const
     // Compare dictionaries:
     // NOTE: This is slow. Add should cache this map_basic_num representation
     // once it is computed.
-    map_basic_num adict(dict_.begin(), dict_.end());
-    map_basic_num bdict(s.dict_.begin(), s.dict_.end());
+    map_basic_num adict(dict_backup.begin(), dict_backup.end());
+    map_basic_num bdict(s.dict_backup.begin(), s.dict_backup.end());
     return unified_compare(adict, bdict);
 }
 
