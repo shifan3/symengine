@@ -189,7 +189,7 @@ public:
 
     std::string apply(const RCP<const Basic> &b);
     std::string apply(const vec_basic &v);
-    std::string apply(const Basic &b);
+    virtual std::string apply(const Basic &b);
 };
 
 class JuliaStrPrinter : public BaseVisitor<JuliaStrPrinter, StrPrinter>

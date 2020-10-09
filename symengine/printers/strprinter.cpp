@@ -1010,8 +1010,7 @@ std::string StrPrinter::parenthesize(const std::string &x)
 
 std::string StrPrinter::apply(const RCP<const Basic> &b)
 {
-    b->accept(*this);
-    return str_;
+    return apply(*b);
 }
 
 std::string StrPrinter::apply(const Basic &b)
