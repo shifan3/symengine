@@ -98,6 +98,8 @@ private:
 #else
     mutable hash_t hash_; // This holds the hash value
 #endif // WITH_SYMENGINE_THREAD_SAFE
+    std::set<std::string> styles_;
+
 public:
 #ifdef WITH_SYMENGINE_VIRTUAL_TYPEID
     virtual TypeID get_type_code() const = 0;
@@ -186,6 +188,13 @@ public:
     SYMENGINE_INCLUDE_METHODS(= 0;)
 
     RCP<const Basic> diff(const RCP<const Symbol> &x, bool cache = true) const;
+
+    void apply_style(const std::string &style) const;
+
+    bool has_style(const std::string &style) const;
+
+    std::string get_color_style() const;
+
 };
 
 //! Our hash:
