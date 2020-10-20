@@ -189,12 +189,6 @@ public:
 
     RCP<const Basic> diff(const RCP<const Symbol> &x, bool cache = true) const;
 
-    void apply_style(const std::string &style) const;
-
-    bool has_style(const std::string &style) const;
-
-    std::string get_color_style() const;
-
 };
 
 //! Our hash:

@@ -34,27 +34,6 @@ RCP<const Basic> Basic::xreplace(const map_basic_basic &xreplace_dict) const
     return SymEngine::xreplace(this->rcp_from_this(), xreplace_dict);
 }
 
-void Basic::apply_style(const std::string &style) const
-{
-    const_cast<std::set<std::string>&>(styles_).insert(style);
-}
-
-bool Basic::has_style(const std::string &style) const
-{
-    return styles_.find(style) != styles_.end();
-}
-
-std::string Basic::get_color_style() const
-{
-    for (const auto &style : styles_) {
-        if (style.size() >= 6 && style.substr(0, 6) == "color:") 
-        {
-            return style.substr(6);
-        }
-    }
-    return "";
-}
-
 
 const char *get_version()
 {
