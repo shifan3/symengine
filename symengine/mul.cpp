@@ -17,7 +17,13 @@ static vec_basic_basic map_to_vec(const map_basic_basic& m) {
 static map_basic_basic vec_to_map(const vec_basic_basic& m) {
     map_basic_basic ret;
     for (const auto& pair : m) {
-        ret[pair.first] = pair.second;
+        auto iter = ret.find(pair.first);
+        if (iter == ret.end()) {
+            ret[pair.first] = pair.second;
+        } else {
+            ret[pair.first] = add(vec_basic{ret[pair.first], pair.second});
+        }
+        
     }
     return ret;
 }
