@@ -447,6 +447,10 @@ TEST_CASE("Test NumberWrapper", "[number]")
                 return 0;
             return i_ > j ? 1 : -1;
         };
+
+        virtual RCP<const Basic> func(const SymEngine::vec_basic &args) const override {
+            throw SymEngine::NotImplementedError("Not Implemented");
+        }
     };
 
     RCP<const Number> n = make_rcp<Long>(10);

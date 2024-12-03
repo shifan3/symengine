@@ -385,4 +385,9 @@ Evaluate &ComplexDouble::get_eval() const
     return evaluate_complex_double;
 }
 
+RCP<const Basic> RealDouble::func(const vec_basic &args) const
+{
+    throw NotImplementedError("Not Implemented");
+}
+
 } // SymEngine

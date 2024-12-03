@@ -233,6 +233,14 @@ vec_basic Interval::get_args() const
     return {start_, end_, boolean(left_open_), boolean(right_open_)};
 }
 
+RCP<const Basic> Interval::func(const vec_basic &args) const
+{
+    return make_rcp<Interval>(rcp_dynamic_cast<const Number>(args[0]),
+                              rcp_dynamic_cast<const Number>(args[1]),
+                              rcp_dynamic_cast<const BooleanAtom>(args[2])->get_val(),
+                              rcp_dynamic_cast<const BooleanAtom>(args[3])->get_val());
+}
+
 RCP<const Set> EmptySet::set_intersection(const RCP<const Set> &o) const
 {
     return emptyset();
@@ -247,6 +255,11 @@ RCP<const Set> EmptySet::set_complement(const RCP<const Set> &o) const
 {
     return o;
 }
+
+RCP<const Boolean> EmptySet::contains(const RCP<const Basic> &a) const
+{
+    return boolean(false);
+};
 
 hash_t EmptySet::__hash__() const
 {
@@ -287,6 +300,10 @@ RCP<const Set> UniversalSet::set_complement(const RCP<const Set> &o) const
 {
     return emptyset();
 }
+
+RCP<const Boolean> UniversalSet::contains(const RCP<const Basic> &a) const {
+    return boolean(true);
+};
 
 hash_t UniversalSet::__hash__() const
 {
@@ -619,6 +636,15 @@ vec_basic Union::get_args() const
     return v;
 }
 
+RCP<const Basic> Union::func(const vec_basic &args) const
+{
+    set_set s;
+    for (auto &a : args) {
+        s.insert(rcp_dynamic_cast<const Set>(a));
+    }
+    return make_rcp<Union>(s);
+}
+
 Complement::Complement(const RCP<const Set> &universe,
                        const RCP<const Set> &container)
     : universe_(universe), container_(container)
@@ -642,6 +668,12 @@ bool Complement::__eq__(const Basic &o) const
                and unified_eq(container_, other.container_);
     }
     return false;
+}
+
+RCP<const Basic> Complement::func(const vec_basic &args) const
+{
+    return make_rcp<Complement>(rcp_dynamic_cast<const Set>(args[0]),
+                               rcp_dynamic_cast<const Set>(args[1]));
 }
 
 int Complement::compare(const Basic &o) const
@@ -708,6 +740,14 @@ hash_t ConditionSet::__hash__() const
     hash_combine<Basic>(seed, *sym);
     hash_combine<Basic>(seed, *condition_);
     return seed;
+}
+
+vec_basic ConditionSet::get_args() const
+{
+    return {sym, condition_};
+}
+RCP<const Basic> ConditionSet::func(const vec_basic &args) const {
+    return make_rcp<ConditionSet>(args[0], rcp_static_cast<const Boolean>(args[1]));
 }
 
 bool ConditionSet::__eq__(const Basic &o) const

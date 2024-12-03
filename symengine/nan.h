@@ -71,6 +71,10 @@ public:
     }
     virtual Evaluate &get_eval() const;
 
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        return make_rcp<NaN>();
+    }
+
     RCP<const Number> add(const Number &other) const;
     RCP<const Number> mul(const Number &other) const;
     RCP<const Number> div(const Number &other) const;

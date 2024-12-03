@@ -266,6 +266,10 @@ vec_basic Pow::get_args() const
     return {base_, exp_};
 }
 
+RCP<const Basic> Pow::func(const vec_basic &args) const {
+    return make_rcp<Pow>(args[0], args[1]);
+}
+
 RCP<const Basic> exp(const RCP<const Basic> &x)
 {
     return pow(E, x);

@@ -553,6 +553,11 @@ public:
             throw NotImplementedError("Not Implemented");
         }
     }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override
+    {
+        throw NotImplementedError("Not Implemented");
+    }
 };
 
 RCP<const ComplexDouble> complex_double(std::complex<double> x);

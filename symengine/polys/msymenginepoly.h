@@ -417,6 +417,10 @@ public:
         return {};
     }
 
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("Not Implemented");
+    }
+
     inline const Container &get_poly() const
     {
         return poly_;

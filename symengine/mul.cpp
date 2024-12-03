@@ -549,4 +549,13 @@ vec_basic Mul::get_args() const
     return args;
 }
 
+RCP<const Basic> Mul::func(const vec_basic &args) const
+{
+    vec_basic_basic vecs;
+    for (const auto &arg : args) {
+        vecs.push_back(std::make_pair(arg, one));
+    }
+    return make_rcp<const Mul>(one, std::move(vecs));
+}
+
 } // SymEngine

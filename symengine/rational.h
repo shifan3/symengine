@@ -318,6 +318,11 @@ public:
     {
         return integer(SymEngine::get_den(i));
     }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override
+    {
+        throw NotImplementedError("Not Implemented");
+    }
 };
 
 //! returns the `num` and `den` of rational `rat` as `RCP<const Integer>`

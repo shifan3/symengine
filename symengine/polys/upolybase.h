@@ -405,6 +405,10 @@ public:
     {
         return make_rcp<const Poly>(var, std::move(d));
     }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("Not Implemented");
+    }
 };
 
 template <typename Cont, typename Poly>

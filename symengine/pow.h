@@ -45,6 +45,8 @@ public:
     }
 
     virtual vec_basic get_args() const;
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 //! \return Pow from `a` and `b`

@@ -169,3 +169,4 @@ symengine/symengine_config_cling.h
 /.idea
 .*cache/
 /libs
+.vscode

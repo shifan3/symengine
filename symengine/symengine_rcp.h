@@ -123,7 +123,7 @@ public:
             (ptr_->refcount_)++;
     }
     // Copy constructor
-    template <class T2>
+    template <class T2, typename std::enable_if<std::is_base_of<T, T2>::value>::type* = nullptr>
     RCP(const RCP<T2> &r_ptr) : ptr_(r_ptr.get())
     {
         if (not is_null())
@@ -135,7 +135,7 @@ public:
         rp.ptr_ = nullptr;
     }
     // Move constructor
-    template <class T2>
+    template <class T2, typename std::enable_if<std::is_base_of<T, T2>::value>::type* = nullptr>
     RCP(RCP<T2> &&r_ptr)
     SYMENGINE_NOEXCEPT : ptr_(r_ptr.get())
     {

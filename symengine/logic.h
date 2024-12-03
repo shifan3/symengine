@@ -38,6 +38,9 @@ public:
     //! Structural equality comparator
     virtual int compare(const Basic &o) const;
     virtual RCP<const Boolean> logical_not() const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("func");
+    }
 };
 
 extern SYMENGINE_EXPORT RCP<const BooleanAtom> boolTrue;
@@ -69,6 +72,7 @@ public:
                             const RCP<const Set> &rhs) const;
     //! Structural equality comparator
     virtual int compare(const Basic &o) const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 RCP<const Boolean> contains(const RCP<const Basic> &expr,
@@ -91,6 +95,7 @@ public:
     hash_t __hash__() const;
     const PiecewiseVec &get_vec() const;
     virtual vec_basic get_args() const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
     virtual bool __eq__(const Basic &o) const;
     //! Structural equality comparator
     virtual int compare(const Basic &o) const;
@@ -121,6 +126,7 @@ public:
     virtual int compare(const Basic &o) const;
     const set_boolean &get_container() const;
     virtual RCP<const Boolean> logical_not() const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 class Or : public Boolean
@@ -140,6 +146,7 @@ public:
     virtual int compare(const Basic &o) const;
     const set_boolean &get_container() const;
     virtual RCP<const Boolean> logical_not() const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 class Not : public Boolean
@@ -159,6 +166,7 @@ public:
     virtual int compare(const Basic &o) const;
     RCP<const Boolean> get_arg() const;
     virtual RCP<const Boolean> logical_not() const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 class Xor : public Boolean
@@ -175,6 +183,7 @@ public:
     virtual bool __eq__(const Basic &o) const;
     virtual int compare(const Basic &o) const;
     const vec_boolean &get_container() const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 class Relational : public TwoArgBasic<Boolean>
@@ -196,6 +205,7 @@ public:
     virtual RCP<const Basic> create(const RCP<const Basic> &lhs,
                                     const RCP<const Basic> &rhs) const;
     virtual RCP<const Boolean> logical_not() const;
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 class Unequality : public Relational
@@ -207,6 +217,7 @@ public:
     virtual RCP<const Basic> create(const RCP<const Basic> &lhs,
                                     const RCP<const Basic> &rhs) const;
     virtual RCP<const Boolean> logical_not() const;
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 class LessThan : public Relational
@@ -218,6 +229,7 @@ public:
     virtual RCP<const Basic> create(const RCP<const Basic> &lhs,
                                     const RCP<const Basic> &rhs) const;
     virtual RCP<const Boolean> logical_not() const;
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 class StrictLessThan : public Relational
@@ -229,6 +241,7 @@ public:
     virtual RCP<const Basic> create(const RCP<const Basic> &lhs,
                                     const RCP<const Basic> &rhs) const;
     virtual RCP<const Boolean> logical_not() const;
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 inline bool is_a_Relational(const Basic &b)

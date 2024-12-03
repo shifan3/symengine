@@ -47,6 +47,10 @@ public:
     {
         return {};
     }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("Not Implemented");
+    }
 };
 
 //! inline version to return `Constant`

@@ -87,6 +87,11 @@ vec_basic Contains::get_args() const
     return v;
 }
 
+RCP<const Basic> Contains::func(const vec_basic &args) const
+{
+    return make_rcp<const Contains>(args[0], rcp_dynamic_cast<const Set>(args[1]));
+}
+
 bool Contains::__eq__(const Basic &o) const
 {
     return is_a<Contains>(o)
@@ -150,6 +155,15 @@ vec_basic Piecewise::get_args() const
     return v;
 }
 
+RCP<const Basic> Piecewise::func(const vec_basic &args) const
+{
+    PiecewiseVec vec;
+    for (size_t i = 0; i < args.size(); i += 2) {
+        vec.push_back(std::make_pair(args[i], rcp_dynamic_cast<const Boolean>(args[i + 1])));
+    }
+    return make_rcp<Piecewise>(std::move(vec));
+}
+
 bool Piecewise::__eq__(const Basic &o) const
 {
     return is_a<Piecewise>(o)
@@ -181,6 +195,15 @@ vec_basic And::get_args() const
 {
     vec_basic v(container_.begin(), container_.end());
     return v;
+}
+
+RCP<const Basic> And::func(const vec_basic &args) const
+{
+    set_boolean s;
+    for (auto &a : args) {
+        s.insert(rcp_dynamic_cast<const Boolean>(a));
+    }
+    return make_rcp<const And>(s);
 }
 
 bool And::__eq__(const Basic &o) const
@@ -249,6 +272,15 @@ vec_basic Or::get_args() const
 {
     vec_basic v(container_.begin(), container_.end());
     return v;
+}
+
+RCP<const Basic> Or::func(const vec_basic &args) const
+{
+    set_boolean s;
+    for (auto &a : args) {
+        s.insert(rcp_dynamic_cast<const Boolean>(a));
+    }
+    return make_rcp<const Or>(s);
 }
 
 bool Or::__eq__(const Basic &o) const
@@ -336,6 +368,11 @@ RCP<const Boolean> Not::get_arg() const
     return arg_;
 }
 
+RCP<const Basic> Not::func(const vec_basic &args) const
+{
+    return make_rcp<const Not>(rcp_dynamic_cast<const Boolean>(args[0]));
+}
+
 RCP<const Boolean> Not::logical_not() const
 {
     return this->get_arg();
@@ -359,6 +396,15 @@ vec_basic Xor::get_args() const
 {
     vec_basic v(container_.begin(), container_.end());
     return v;
+}
+
+RCP<const Basic> Xor::func(const vec_basic &args) const
+{
+    vec_boolean v;
+    for (auto &a : args) {
+        v.push_back(rcp_dynamic_cast<const Boolean>(a));
+    }
+    return make_rcp<const Xor>(v);
 }
 
 bool Xor::__eq__(const Basic &o) const

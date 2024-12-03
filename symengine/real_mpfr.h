@@ -148,6 +148,10 @@ public:
         return false;
     }
 
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("Not Implemented");
+    }
+
     /*! Add RealMPFRs
      * \param other of type Integer
      * */
@@ -372,6 +376,10 @@ class RealMPFR : public Number
 {
 public:
     IMPLEMENT_TYPEID(SYMENGINE_REAL_MPFR)
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("Not Implemented");
+    }
 };
 }
 

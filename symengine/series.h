@@ -710,6 +710,10 @@ public:
     {
         throw NotImplementedError("log(const) not implemented");
     }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("Not Implemented");
+    }
 };
 
 RCP<const SeriesCoeffInterface> series(const RCP<const Basic> &ex,

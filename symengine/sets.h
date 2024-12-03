@@ -68,16 +68,17 @@ public:
         return {};
     }
 
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        return make_rcp<EmptySet>();
+    }
+
     template <typename T_, typename... Args>
     friend inline RCP<T_> make_rcp(Args &&... args);
 
     virtual RCP<const Set> set_intersection(const RCP<const Set> &o) const;
     virtual RCP<const Set> set_union(const RCP<const Set> &o) const;
     virtual RCP<const Set> set_complement(const RCP<const Set> &o) const;
-    virtual RCP<const Boolean> contains(const RCP<const Basic> &a) const
-    {
-        return boolean(false);
-    };
+    virtual RCP<const Boolean> contains(const RCP<const Basic> &a) const override;
 };
 
 class UniversalSet : public Set
@@ -101,16 +102,17 @@ public:
         return {};
     }
 
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        return make_rcp<UniversalSet>();
+    }
+
     template <typename T_, typename... Args>
     friend inline RCP<T_> make_rcp(Args &&... args);
 
     virtual RCP<const Set> set_intersection(const RCP<const Set> &o) const;
     virtual RCP<const Set> set_union(const RCP<const Set> &o) const;
     virtual RCP<const Set> set_complement(const RCP<const Set> &o) const;
-    virtual RCP<const Boolean> contains(const RCP<const Basic> &a) const
-    {
-        return boolean(true);
-    };
+    virtual RCP<const Boolean> contains(const RCP<const Basic> &a) const override;
 };
 
 class FiniteSet : public Set
@@ -126,6 +128,10 @@ public:
     virtual vec_basic get_args() const
     {
         return vec_basic(container_.begin(), container_.end());
+    }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        return make_rcp<FiniteSet>(set_basic(args.begin(), args.end()));
     }
 
     FiniteSet(const set_basic &container);
@@ -172,7 +178,9 @@ public:
     virtual RCP<const Set> set_intersection(const RCP<const Set> &o) const;
     virtual RCP<const Set> set_complement(const RCP<const Set> &o) const;
     virtual RCP<const Boolean> contains(const RCP<const Basic> &a) const;
-    virtual vec_basic get_args() const;
+    virtual vec_basic get_args() const override;
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 
     inline const RCP<const Number> &get_start() const
     {
@@ -217,6 +225,7 @@ public:
     }
 
     RCP<const Set> create(const set_set &in) const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 class Complement : public Set
@@ -250,6 +259,7 @@ public:
     {
         return this->container_;
     }
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 class ConditionSet : public Set
@@ -263,10 +273,8 @@ public:
     virtual hash_t __hash__() const;
     virtual bool __eq__(const Basic &o) const;
     virtual int compare(const Basic &o) const;
-    virtual vec_basic get_args() const
-    {
-        return {sym, condition_};
-    }
+    virtual vec_basic get_args() const override;
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
     ConditionSet(const RCP<const Basic> &sym,
                  const RCP<const Boolean> &condition);
     static bool is_canonical(const RCP<const Basic> &sym,
@@ -301,6 +309,9 @@ public:
     virtual vec_basic get_args() const
     {
         return {sym_, expr_, base_};
+    }
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        return make_rcp<ImageSet>(args[0], args[1], rcp_dynamic_cast<const Set>(args[2]));
     }
     ImageSet(const RCP<const Basic> &sym, const RCP<const Basic> &expr,
              const RCP<const Set> &base);

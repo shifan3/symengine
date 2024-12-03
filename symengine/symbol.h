@@ -45,6 +45,10 @@ public:
         return {};
     }
     RCP<const Symbol> as_dummy() const;
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("Not Implemented");
+    }
 };
 
 class Dummy : public Symbol

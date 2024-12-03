@@ -189,6 +189,8 @@ public:
 
     RCP<const Basic> diff(const RCP<const Symbol> &x, bool cache = true) const;
 
+    virtual RCP<const Basic> func(const vec_basic &args) const = 0;
+
 };
 
 //! Our hash:

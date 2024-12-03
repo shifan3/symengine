@@ -371,4 +371,14 @@ vec_basic Add::get_args() const
     return args;
 }
 
+
+RCP<const Basic> Add::func(const vec_basic &args) const
+{
+    vec_basic_num vecs;
+    for (const auto &arg : args) {
+        vecs.push_back(std::make_pair(arg, one));
+    }
+    return make_rcp<Add>(zero, std::move(vecs));
+}
+
 } // SymEngine

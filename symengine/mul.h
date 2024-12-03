@@ -136,6 +136,8 @@ public:
     {
         return dict_;
     }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 //! Multiplication
 RCP<const Basic> mul(const RCP<const Basic> &a, const RCP<const Basic> &b);

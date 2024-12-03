@@ -49,6 +49,10 @@ public:
         return {_direction};
     }
 
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        return make_rcp<Infty>(rcp_dynamic_cast<const Number>(args[0]));
+    }
+
     //! \return `true` if `0`
     inline bool is_zero() const
     {

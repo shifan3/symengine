@@ -2064,6 +2064,16 @@ vec_basic Subs::get_args() const
     return v;
 }
 
+RCP<const Basic> Subs::func(const vec_basic &args) const
+{
+    map_basic_basic dict;
+    size_t n_size = (args.size() - 1) / 2;
+    for (size_t i = 1; i < n_size; i++) {
+        dict[args[i]] = args[i + n_size];
+    }
+    return create(args[0], std::move(dict));
+}
+
 Sinh::Sinh(const RCP<const Basic> &arg) : HyperbolicFunction(arg)
 {
     SYMENGINE_ASSIGN_TYPEID()
@@ -2664,7 +2674,7 @@ bool has_dup(const vec_basic &arg)
     return false;
 }
 
-LeviCivita::LeviCivita(const vec_basic &&arg) : MultiArgFunction(std::move(arg))
+LeviCivita::LeviCivita(const vec_basic &arg) : MultiArgFunction(arg)
 {
     SYMENGINE_ASSIGN_TYPEID()
     SYMENGINE_ASSERT(is_canonical(get_vec()))
@@ -3486,7 +3496,7 @@ RCP<const Basic> abs(const RCP<const Basic> &arg)
     return make_rcp<const Abs>(d);
 }
 
-Max::Max(const vec_basic &&arg) : MultiArgFunction(std::move(arg))
+Max::Max(const vec_basic &arg) : MultiArgFunction(arg)
 {
     SYMENGINE_ASSIGN_TYPEID()
     SYMENGINE_ASSERT(is_canonical(get_vec()))
@@ -3590,7 +3600,7 @@ RCP<const Basic> max(const vec_basic &arg)
     }
 }
 
-Min::Min(const vec_basic &&arg) : MultiArgFunction(std::move(arg))
+Min::Min(const vec_basic &arg) : MultiArgFunction(arg)
 {
     SYMENGINE_ASSIGN_TYPEID()
     SYMENGINE_ASSERT(is_canonical(get_vec()))

@@ -69,6 +69,23 @@ public:
     }
 };
 
+#define ONE_ARG_FUNCTION_FUNC_IMPL \
+    virtual RCP<const Basic> func(const vec_basic &args) const override { \
+        typedef typename std::remove_cv<typename std::remove_reference<decltype(*this)>::type>::type CLASS; \
+        return make_rcp<CLASS>(args[0]); \
+    }
+
+#define TWO_ARG_FUNCTION_FUNC_IMPL \
+    virtual RCP<const Basic> func(const vec_basic &args) const override { \
+        typedef typename std::remove_cv<typename std::remove_reference<decltype(*this)>::type>::type CLASS; \
+        return make_rcp<CLASS>(args[0], args[1]); \
+    }
+
+#define MULTI_ARG_FUNCTION_FUNC_IMPL \
+    virtual RCP<const Basic> func(const vec_basic &args) const override { \
+        typedef typename std::remove_cv<typename std::remove_reference<decltype(*this)>::type>::type CLASS; \
+        return make_rcp<CLASS>(args); \
+    }    
 template <class BaseClass>
 class TwoArgBasic : public BaseClass
 {
@@ -195,6 +212,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized sign
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Sign
@@ -210,6 +228,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized floor
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Floor:
@@ -225,6 +244,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized ceiling
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Ceiling:
@@ -240,6 +260,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized truncate
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Truncate:
@@ -255,6 +276,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized conjugate
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Conjugate
@@ -321,6 +343,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized sin
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Sin:
@@ -337,6 +360,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized cos
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Cos:
@@ -353,6 +377,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized tan
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 //! Canonicalize Tan:
 RCP<const Basic> tan(const RCP<const Basic> &arg);
@@ -368,6 +393,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized cot
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 //! Canonicalize Cot:
 RCP<const Basic> cot(const RCP<const Basic> &arg);
@@ -383,6 +409,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized csc
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 //! Canonicalize Csc:
 RCP<const Basic> csc(const RCP<const Basic> &arg);
@@ -398,6 +425,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized sec
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 //! Canonicalize Sec:
 RCP<const Basic> sec(const RCP<const Basic> &arg);
@@ -413,6 +441,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized asin
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize ASin:
@@ -429,6 +458,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized acos
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize ACos:
@@ -445,6 +475,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized asec
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize ASec:
@@ -461,6 +492,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized acsc
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize ACsc:
@@ -477,6 +509,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized atan
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize ATan:
@@ -493,6 +526,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized acot
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize ACot:
@@ -520,6 +554,7 @@ public:
     //! \return canonicalized `atan2`
     virtual RCP<const Basic> create(const RCP<const Basic> &a,
                                     const RCP<const Basic> &b) const;
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize ATan2:
@@ -539,6 +574,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return canonicalized `log`
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Returns the Natural Logarithm from argument `arg`
@@ -561,6 +597,7 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return canonicalized lambertw
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Create a new LambertW instance:
@@ -602,6 +639,8 @@ public:
     //! \return canonicalized `zeta`
     virtual RCP<const Basic> create(const RCP<const Basic> &a,
                                     const RCP<const Basic> &b) const;
+
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Create a new Zeta instance:
@@ -627,6 +666,7 @@ public:
     //! \return Canonicalized zeta
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
     using OneArgFunction::create;
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Create a new Dirichlet_eta instance:
@@ -658,6 +698,9 @@ public:
     //! \return `true` if canonical
     bool is_canonical(const vec_basic &arg) const;
     virtual RCP<const Basic> create(const vec_basic &x) const;
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        throw NotImplementedError("func");
+    }
 };
 
 //! Create a new FunctionSymbol instance:
@@ -677,6 +720,7 @@ public:
     virtual RCP<const Basic> create(const vec_basic &v) const = 0;
     virtual RCP<const Number> eval(long bits) const = 0;
     virtual RCP<const Basic> diff_impl(const RCP<const Symbol> &s) const = 0;
+    
 };
 
 /*! Derivative operator
@@ -729,6 +773,14 @@ public:
     }
     bool is_canonical(const RCP<const Basic> &arg,
                       const multiset_basic &x) const;
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        multiset_basic x;
+        for (size_t i = 1; i < args.size(); i++) {
+            x.insert(args[i]);
+        }
+        return make_rcp<Derivative>(args[0], std::move(x));
+    }
 };
 
 /*! Subs operator
@@ -768,6 +820,8 @@ public:
 
     bool is_canonical(const RCP<const Basic> &arg,
                       const map_basic_basic &x) const;
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 class HyperbolicBase : public OneArgFunction
@@ -802,6 +856,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized sinh
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize Sinh:
@@ -818,6 +874,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized csch
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize Csch:
@@ -834,6 +892,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized cosh
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize Cosh:
@@ -850,6 +910,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized sech
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize Sech:
@@ -866,6 +928,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized tanh
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize Tanh:
@@ -882,6 +946,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized coth
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize Coth:
@@ -898,6 +964,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized asinh
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize ASinh:
@@ -914,6 +982,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized acsch
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize ACsch:
@@ -930,6 +1000,11 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized acosh
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override {
+        typedef typename std::remove_cv<typename std::remove_reference<decltype(*this)>::type>::type CLASS;
+        return make_rcp<CLASS>(args[0]);
+    }
 };
 
 //! Canonicalize ACosh:
@@ -946,6 +1021,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized atanh
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize ATanh:
@@ -962,6 +1039,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized acoth
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize ACoth:
@@ -978,6 +1057,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized asech
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL
 };
 
 //! Canonicalize ASech:
@@ -1002,6 +1083,8 @@ public:
     //! \return canonicalized `KroneckerDelta`
     virtual RCP<const Basic> create(const RCP<const Basic> &a,
                                     const RCP<const Basic> &b) const;
+
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize KroneckerDelta:
@@ -1020,11 +1103,13 @@ class LeviCivita : public MultiArgFunction
 public:
     IMPLEMENT_TYPEID(SYMENGINE_LEVICIVITA)
     //! LeviCivita Constructor
-    LeviCivita(const vec_basic &&arg);
+    LeviCivita(const vec_basic &arg);
     //! \return `true` if canonical
     bool is_canonical(const vec_basic &arg) const;
     //! \return canonicalized Max
     virtual RCP<const Basic> create(const vec_basic &arg) const;
+
+    MULTI_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize LeviCivita:
@@ -1050,6 +1135,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized erf
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Erf:
@@ -1075,6 +1162,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized erfc
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Erfc:
@@ -1100,6 +1189,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized gamma
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Gamma:
@@ -1119,6 +1210,8 @@ public:
     //! \return canonicalized `LowerGamma`
     virtual RCP<const Basic> create(const RCP<const Basic> &a,
                                     const RCP<const Basic> &b) const;
+
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize LowerGamma:
@@ -1139,6 +1232,8 @@ public:
     //! \return canonicalized `UpperGamma`
     virtual RCP<const Basic> create(const RCP<const Basic> &a,
                                     const RCP<const Basic> &b) const;
+
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize UpperGamma:
@@ -1164,6 +1259,8 @@ public:
     RCP<const Basic> rewrite_as_gamma() const;
     //! \return canonicalized loggamma
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize LogGamma:
@@ -1196,6 +1293,8 @@ public:
     //! \return canonicalized `Beta`
     virtual RCP<const Basic> create(const RCP<const Basic> &a,
                                     const RCP<const Basic> &b) const;
+
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Beta:
@@ -1228,6 +1327,8 @@ public:
     //! \return canonicalized `PolyGamma`
     virtual RCP<const Basic> create(const RCP<const Basic> &a,
                                     const RCP<const Basic> &b) const;
+
+    TWO_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize PolyGamma
@@ -1250,6 +1351,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return canonicalized abs
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Abs:
@@ -1260,11 +1363,13 @@ class Max : public MultiArgFunction
 public:
     IMPLEMENT_TYPEID(SYMENGINE_MAX)
     //! Max Constructor
-    Max(const vec_basic &&arg);
+    Max(const vec_basic &arg);
     //! \return `true` if canonical
     bool is_canonical(const vec_basic &arg) const;
     //! \return canonicalized Max
     virtual RCP<const Basic> create(const vec_basic &arg) const;
+
+    MULTI_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Max:
@@ -1275,11 +1380,13 @@ class Min : public MultiArgFunction
 public:
     IMPLEMENT_TYPEID(SYMENGINE_MIN)
     //! Min Constructor
-    Min(const vec_basic &&arg);
+    Min(const vec_basic &arg);
     //! \return `true` if canonical
     bool is_canonical(const vec_basic &arg) const;
     //! \return canonicalized Max
     virtual RCP<const Basic> create(const vec_basic &arg) const;
+
+    MULTI_ARG_FUNCTION_FUNC_IMPL;
 };
 
 //! Canonicalize Min:
@@ -1298,6 +1405,8 @@ public:
     bool is_canonical(const RCP<const Basic> &arg) const;
     //! \return Canonicalized UnevaluatedExpr
     virtual RCP<const Basic> create(const RCP<const Basic> &arg) const;
+
+    ONE_ARG_FUNCTION_FUNC_IMPL;
 };
 
 RCP<const Basic> unevaluated_expr(const RCP<const Basic> &arg);

@@ -123,6 +123,8 @@ public:
     {
         return dict_;
     }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 /*!

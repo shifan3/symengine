@@ -475,6 +475,8 @@ public:
             throw NotImplementedError("Not Implemented");
         }
     }
+
+    virtual RCP<const Basic> func(const vec_basic &args) const override;
 };
 
 RCP<const RealDouble> real_double(double x);
