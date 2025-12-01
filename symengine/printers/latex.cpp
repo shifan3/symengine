@@ -459,7 +459,7 @@ void LatexPrinter::bvisit(const Ceiling &x)
 void LatexPrinter::bvisit(const Abs &x)
 {
     std::ostringstream o;
-    o << "\\left|" << apply(x.get_arg()) << "}\\right|";
+    o << "\\left|" << apply(x.get_arg()) << "\\right|";
     str_ = o.str();
 }
 
